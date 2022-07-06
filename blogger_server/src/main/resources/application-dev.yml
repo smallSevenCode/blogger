@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    include:
+      - dev-mysql
+      - dev-doc
+      - dev-jwt
+      - dev-redis

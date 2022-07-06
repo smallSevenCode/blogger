@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!--获取yml配置数据-->
+    <springProperty name="log_name" source="spring.application.name"/>
+    <!--字符集-->
+    <property name="log_charset" value="utf-8"/>
+    <!--日志级别-->
+    <property name="log_level" value="info"/>
+    <!--控制台格式化-->
+    <property name="log_format"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%-5level){green} %X{traceId} %-5.5L %clr(%-40.40logger{36}){cyan} : %clr(%M){magenta} - %msg%xEx%n"/>
+    <!--文件路径-->
+    <property name="log_filePath" value="${log_name}/logs"/>
+    <!--最大保留天数-->
+    <property name="log_maxHistory" value="30"/>
+    <!--最大文件大小-->
+    <property name="log_maxFileSize" value="5MB"/>
+    <!--文件格式化-->
+    <property name="log_file_format"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %X{traceId} %-5.5L %-40.40logger{36} : %M - %msg%xEx%n"/>
+    <!--SQL打印-->
+    <property name="log_sql" value="org.example.mapper"/>
+
+    <!--颜色转换器-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--控制台日志-->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度,%msg：日志消息，%n是换行符-->
+            <charset>${log_charset}</charset>
+            <pattern>${log_format}</pattern>
+        </encoder>
+        <!--自定义日志过滤器-->
+        <filter class="org.example.config.LogFilterConfig"/>
+    </appender>
+
+    <!--日志输出文件-->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志记录器的滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--文件名称-->
+            <fileNamePattern>${log_filePath}/info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!--文件最大保存历史数量-->
+            <maxHistory>${log_maxHistory}</maxHistory>
+            <!--文件最大大小-->
+            <maxFileSize>${log_maxFileSize}</maxFileSize>
+        </rollingPolicy>
+        <!--格式化-->
+        <encoder>
+            <pattern>${log_file_format}</pattern>
+            <charset>${log_charset}</charset>
+        </encoder>
+    </appender>
+
+
+    <!--日志异步输出-->
+    <appender name="asyncAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 队列的最大容量,该值会影响性能.默认值为256 -->
+        <queueSize>1024</queueSize>
+        <!-- 队列剩余容量小于discardingThreshold,则会丢弃TRACT、DEBUG、INFO级别的日志;默认值-1,为queueSize的20%;0不丢失日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!--是否提取调用者数据-->
+        <includeCallerData>false</includeCallerData>
+        <!--如果为false（默认值），则追加程序将阻止追加到完整队列，而不是丢失消息。设置为true时，附加程序只会丢弃消息，不会阻止您的应用程序-->
+        <neverBlock>true</neverBlock>
+        <!-- 添加附加的appender,最多只能添加一个,将此类型修改为异步-->
+        <appender-ref ref="fileAppender"/>
+    </appender>
+
+
+    <!--SQL打印-->
+    <logger name="${log_sql}" level="debug"/>
+
+    <!--开发|测试环境-->
+    <springProfile name="dev|test">
+        <root level="${log_level}">
+            <appender-ref ref="consoleAppender"/>
+            <appender-ref ref="asyncAppender"/>
+        </root>
+    </springProfile>
+
+    <!--生产环境-->
+    <springProfile name="prod">
+        <root level="${log_level}">
+            <appender-ref ref="asyncAppender"/>
+        </root>
+    </springProfile>
+
+</configuration>

@@ -1,0 +1,9 @@
+server:
+  port: 29527
+  servlet:
+    context-path: /api
+spring:
+  profiles:
+    active: dev
+  application:
+    name: blogger_server

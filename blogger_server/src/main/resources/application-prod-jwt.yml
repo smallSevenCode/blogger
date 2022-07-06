@@ -1,0 +1,8 @@
+jwt:
+  expiration: 259200
+  key: 9f7eb339739b486e9b2940f4f296ac2c
+  subject: 8d21e95741624b8e8d13a93575fc2ef8
+  white:
+    - /api/user/login
+    - /api/user/sendCode
+    - /api/user/registeredUser

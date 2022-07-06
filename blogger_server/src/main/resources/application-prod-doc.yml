@@ -1,0 +1,22 @@
+swagger:
+  title: 赣菜研究基地
+  groupName: 测试分组
+  description: 项目模板
+  author: 张鹏
+  url: 175.178.108.40
+  email: pen_zp@163.com
+  termsOfServiceUrl: https://www.momoyu.fun
+  version: 1.0-SNAPSHOT
+knife4j:
+  production: false
+  enable: true
+  cors: true
+  basic:
+    enable: true
+    username: admin
+    password: admin
+  setting:
+    enableSwaggerModels: false
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2019-[赣菜研究基地](https://gitee.com/xiaoym/knife4j)

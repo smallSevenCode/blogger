@@ -1,0 +1,23 @@
+knife4j:
+  production: false
+  enable: true
+  cors: true
+  basic:
+    enable: true
+    username: admin
+    password: admin
+  setting:
+    enableSwaggerModels: false
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2019-[博客研究基地](https://gitee.com/xiaoym/knife4j)
+  home:
+    className: org.example.common.CurrentUser
+#    title: 博客Swagger文档
+#    groupName: 博客研究基地
+#    description: 博客Swagger文档
+#    author: 张鹏
+#    url: 175.178.108.40
+#    email: pen_zp@163.com
+#    termsOfServiceUrl: https://www.momoyu.fun
+#    version: 1.0-SNAPSHOT
